@@ -1,0 +1,10 @@
+# Ignorer BIG DATA
+data/raw/*.parquet
+data/processed/*.parquet
+data/gold/*.parquet
+
+# Ignorer files generes par Python
+__pycache__/
+*.pyc
+venv/
+ingestion/erp_simulator.py
