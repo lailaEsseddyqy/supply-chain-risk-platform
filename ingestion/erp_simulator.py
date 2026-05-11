@@ -45,11 +45,11 @@ def generate_supplier_data(supplier_id):
 
     base_risk = Risk_Base[country]
     return {
-        "SupplierID": f"SUP_{supplier_id:03d}",
-        "Name": fake.company(),
-        "Country": country,
-        "Category": random.choice(Categories),
-        "avg_delay_days": float(np.random.normal(loc=base_risk * 12,scale =2).clip(0, 20)),
+        "supplier_id": f"SUP_{supplier_id:03d}",
+        "name": fake.company(),
+        "country": country,
+        "category": random.choice(Categories),
+        "avg_delay_days": float(np.clip(np.random.normal(loc=base_risk * 12, scale=2), 0, 20)),
         "defect_rate": float(np.random.beta(a=base_risk * 2, b=5)),
         "on_time_delivery": float(np.clip(1-base_risk * 0.4 + np.random.normal(0, 0.05), 0.5, 0.99)),
         "annual_volume_usd": random.randint(100_000, 5_000_000),
@@ -58,7 +58,7 @@ def main():
     # generate 50 suppliers
     suppliers = pd.DataFrame([generate_supplier_data(i) for i in range(1, 51)])
     # create folder if not exists
-    path("data/raw").mkdir(parents=True, exist_ok=True)
+    Path("data/raw").mkdir(parents=True, exist_ok=True)
 
     # save to Parquet
     suppliers.to_parquet("data/raw/suppliers.parquet", index=False)
